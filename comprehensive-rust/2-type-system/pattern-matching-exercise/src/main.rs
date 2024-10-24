@@ -33,7 +33,30 @@ fn structs() {
     }
 }
 
+fn enums() {
+    enum Result {
+        OK(i32),
+        Err(String),
+        // Wait(String), it causes non-exhaustive patterns when there is no this enum in match below.
+    }
+
+    fn divide_in_two(n: i32) -> Result {
+        if n % 2 == 0 {
+            Result::OK(n/2)
+        } else {
+            Result::Err(format!("cannot divide {n} into two equal parts"))
+        }
+    }
+
+    let n = 102;
+    match divide_in_two(n) {
+        Result::OK(half) => println!("{n} divided in two is {half}"),
+        Result::Err(msg) => println!("sorry, an error happened: {msg}"),
+    }
+}
+
 fn main() {
     matching_values();
     structs();
+    enums();
 }
