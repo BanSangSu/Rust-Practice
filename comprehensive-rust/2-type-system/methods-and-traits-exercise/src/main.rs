@@ -119,9 +119,63 @@ fn associated_types() {
     println!("{:?}", Meters(10).multiply(&Meters(20)));
 }
 
+
+// Deriving
+#[derive(Debug, Clone, Default)]
+struct Player {
+    name: String,
+    strength: u8,
+    hit_points: u8,
+}
+
+fn deriving() {
+    let p1 = Player::default();
+    let mut p2 = p1.clone();
+    p2.name = String::from("EldurScrollz");
+    println!("{p1:?} vs. {p2:?}");
+}
+
+
+// Exercise: Logger Trait 
+
+pub trait Logger {
+    fn log(&self, verbosity: u8, message: &str);
+}
+
+struct StdoutLogger;
+
+impl Logger for StdoutLogger {
+    fn log(&self, verbosity: u8, message: &str) {
+        println!("verbosity={verbosity}: {message}");
+    }
+}
+
+
+struct VerbosityFilter { 
+    max_verbosity: u8,
+    inner: StdoutLogger,
+}
+
+impl Logger for VerbosityFilter {
+    fn log(&self, verbosity: u8, message: &str) {
+        if verbosity <= self.max_verbosity {
+            self.inner.log(verbosity, message);
+        }
+    }
+}
+
+fn exercise_logger_trait() {    
+    let logger = VerbosityFilter { max_verbosity: 3, inner: StdoutLogger};
+    logger.log(5, "FYI");
+    logger.log(2, "Uhoh");
+}
+
 fn main() {
-    methods();
-    traits();
-    supertraits();
-    associated_types();
+    exercise_logger_trait();
+
+//     methods();
+//     traits();
+//     supertraits();
+//     associated_types();
+//     deriving();
 }
