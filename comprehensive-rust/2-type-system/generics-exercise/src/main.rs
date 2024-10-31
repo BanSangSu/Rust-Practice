@@ -66,9 +66,64 @@ fn generic_traits() {
 }
 
 
+// Trait Bounds
+fn trait_bounds() {
+    fn duplicate<T: Clone>(a: T) -> (T, T) {
+        (a.clone(), a.clone())
+    }
+
+    fn copy<T>(a: T) -> (T, T)
+    where
+        T: Clone,
+    {
+        (a.clone(), a.clone())
+    }
+
+    #[derive(Debug)] // struct below is non clonable and non debugable.
+    #[derive(Clone)] // Therefore we need to add derive attribute
+    struct NonClonable;
+
+    let foo = String::from("foo");
+    let foo2 = String::from("foo"); // my opinion. we initiate foo2 as we can use one value to two or more function because of owenership
+    let pair1 = duplicate(foo);
+    let pair2 = copy(foo2);
+    println!("{pair1:?}, {pair2:?}");
+
+    let non_clonable = NonClonable;
+    let non_clonable2 = NonClonable; // my opinion. we initiate foo2 as we can use one value to two or more function because of owenership
+    let pass_non1 = duplicate(non_clonable);
+    let pass_non2 = copy(non_clonable2);
+    println!("{pass_non1:?}, {pass_non2:?}");
+}
+
+
+
+// impl Trait https://google.github.io/comprehensive-rust/generics/impl-trait.html
+fn impl_trait() {
+    // fn add_56_millions(x: impl Into<i32>) -> i32 {
+    fn add_56_millions<T: Into<i32>>(x: T) -> i32 { // Syntactic sugar:
+        x.into() + 56_000_000
+    }
+
+    fn pair_of(x: u32) -> impl std::fmt::Debug {
+        (x + 1, x - 1)
+    }
+    
+    let many = add_56_millions(56_i8);
+    println!("{many}");
+    let many_more = add_56_millions(10_000_000);
+    println!("{many_more}");
+    // let debuggable: () = pair_of(53); // to see the expected unit type
+    // let debuggable: &dyn std::fmt::Debug = &pair_of(53); // found it... but it makes the code complicated...
+    let debuggable = pair_of(53);
+    println!("debuggable: {debuggable:?}");
+}
+
 
 fn main() {
     generic_functions();
     generic_data_types();
     generic_traits();
+    trait_bounds();
+    impl_trait();
 }
