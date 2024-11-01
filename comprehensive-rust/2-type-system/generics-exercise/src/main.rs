@@ -120,10 +120,87 @@ fn impl_trait() {
 }
 
 
+
+// dyn Trait https://google.github.io/comprehensive-rust/generics/dyn-trait.html
+fn dyn_trait() {
+    struct Dog {
+        name: String,
+        age: i8,
+    }
+    struct Cat {
+        lives: i8,
+    }
+
+    trait Pet {
+        fn talk(&self) -> String;
+    }
+
+    impl Pet for Dog {
+        fn talk(&self) -> String {
+            format!("Woof, my name is {}!", self.name)
+        }
+    }
+
+    impl Pet for Cat {
+        fn talk(&self) -> String {
+            String::from("Miau!!!")
+        }
+    }
+
+    fn generic(pet: &impl Pet) {
+        println!("Hello, who are you? {}", pet.talk());
+    }
+
+    fn dynamic(pet: &dyn Pet) {
+        println!("Hello, who are you? {}", pet.talk());
+    }
+
+
+    let cat = Cat { lives: 12 };
+    let dog = Dog { name: String::from("Fido"), age:5 };
+
+    generic(&cat);
+    generic(&dog);
+    
+    dynamic(&cat);
+    dynamic(&dog);
+}
+
+
+
+// Exercise: Generic min https://google.github.io/comprehensive-rust/generics/exercise.html
+use std::cmp::Ordering;
+
+// The code that I did firstly
+// fn min<T: Ord>(a:T , b:T) -> T {
+//     a.min(b)
+// }
+// another code
+fn min<T: Ord> (l:T, r:T) -> T {
+    match l.cmp(&r) {
+        Ordering::Less | Ordering::Equal => l, 
+        Ordering::Greater => r,
+    }
+}
+
+fn exercise_generic_min() {
+    assert_eq!(min(0, 10), 0);
+    assert_eq!(min(500, 123), 123);
+
+    assert_eq!(min('a', 'z'), 'a');
+    assert_eq!(min('7', '1'), '1');
+
+    assert_eq!(min("hello", "goodbye"), "goodbye");
+    assert_eq!(min("bat", "armadillo"), "armadillo");
+}
+
 fn main() {
-    generic_functions();
-    generic_data_types();
-    generic_traits();
-    trait_bounds();
-    impl_trait();
+    exercise_generic_min();
+
+    // generic_functions();
+    // generic_data_types();
+    // generic_traits();
+    // trait_bounds();
+    // impl_trait();
+    // dyn_trait();
 }
