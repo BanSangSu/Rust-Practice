@@ -25,7 +25,40 @@ fn documentation() {
 }
 
 
+// Option https://google.github.io/comprehensive-rust/std-types/option.html
+fn option() {
+    let name = "Löwe 老虎 Léopard Gepardi";
+    let mut position: Option<usize> = name.find('é');
+    println!("find returned {position:?}");
+    assert_eq!(position.unwrap(), 14); 
+    position = name.find('Z');
+    println!("find returned {position:?}");
+    assert_eq!(position.expect("Character not found"), 0);
+}
+
+
+// Result https://google.github.io/comprehensive-rust/std-types/result.html
+use std::fs::File;
+use std::io::Read;
+fn result() {
+    let file: Result<File, std::io::Error> = File::open("diary.txt");
+    match file {
+        Ok(mut file) => {
+            let mut contents = String::new();
+            if let Ok(bytes) = file.read_to_string(&mut contents) {
+                println!("Dear diary: {contents} ({bytes} bytes)");
+            } else {
+                println!("Could not read file content");
+            }
+        }
+        Err(err) => {
+            println!("The diary could not be opened: {err}");
+        }
+    }
+}
+
 fn main() {
-    documentation();
-    println!("Hello, world!");
+    // documentation();
+    // option();
+    result();
 }
