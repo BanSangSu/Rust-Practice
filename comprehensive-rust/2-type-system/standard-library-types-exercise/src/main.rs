@@ -57,8 +57,57 @@ fn result() {
     }
 }
 
+
+// String https://google.github.io/comprehensive-rust/std-types/string.html
+fn string() {
+    let mut s1 = String::new();
+    s1.push_str("Hello");
+    println!("s1: len = {}, capacity = {}", s1.len(), s1.capacity());
+
+    let mut s2 = String::with_capacity(s1.len() + 1);
+    s2.push_str(&s1);
+    s2.push('!');
+    println!("s2: len = {}, capacity = {}", s2.len(), s2.capacity());
+
+    let mut s3 = String::from("🇨🇭");
+    println!("s3: len = {}, number of chars = {}", s3.len(), s3.chars().count());
+
+    use std::ops::Deref;
+    let s4 = s1.deref();
+    let s5 = &*s1;
+    println!("s4: {}, s5 = {}", s4, s5);
+}
+
+
+// Vec https://google.github.io/comprehensive-rust/std-types/vec.html
+fn vec() {
+    let mut v1 = Vec::new();
+    v1.push(42);
+    println!("v1: len = {}, capacity = {}", v1.len(), v1.capacity());
+
+    let mut v2 = Vec::with_capacity(v1.len() + 1);
+    v2.extend(v1.iter());
+    v2.push(9999);
+    println!("v2: len = {}, capacity = {}", v2.len(), v2.capacity());
+    println!("v2: len = {:?},", v2);
+
+    // Canonical macro to initialize a vector with elements.
+    let mut v3 = vec![0, 0, 1, 2, 3, 4];
+
+    // Retains only the elements specified by the predicate (in here even elements).
+    v3.retain(|x| x % 2 == 0);
+    println!("{v3:?}");
+
+    // Removes consecutive repeated elements
+    v3.dedup();
+    println!("{v3:?}");
+}
+
+
 fn main() {
     // documentation();
     // option();
-    result();
+    // result();
+    string();
+    vec();
 }
