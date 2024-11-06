@@ -147,6 +147,11 @@ fn hashmap(){
     // println!("{pc1}, {pc2}"); error, mutalbe borrow occurs with immutable borrow later used.
 
 
+    let page_counts_1 = HashMap::from([
+        ("Harry Potter and the Sorcerer's Stone".to_string(), 336),
+        ("The Hunger Games".to_string(), 374),
+    ]);
+    println!("{page_counts_1:#?}");
 }
 
 
