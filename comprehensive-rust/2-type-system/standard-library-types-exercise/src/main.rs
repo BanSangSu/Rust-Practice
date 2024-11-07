@@ -152,6 +152,7 @@ fn hashmap(){
         ("The Hunger Games".to_string(), 374),
     ]);
     println!("{page_counts_1:#?}");
+    println!("{:#?}", page_counts_1.keys());
 }
 
 
