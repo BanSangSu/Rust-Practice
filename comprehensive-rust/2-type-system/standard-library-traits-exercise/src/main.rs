@@ -43,6 +43,14 @@ fn comparisions() {
     println!("{:?}", citation1.partial_cmp(&citation2));
 }
 
+
+
+// Operators https://google.github.io/comprehensive-rust/std-traits/operators.html
+fn operators() {
+    #[derive(Debug, Copy, Clone)]
+}
+
 fn main() {
     comparisions();
+    operators();
 }
