@@ -48,6 +48,10 @@ fn comparisions() {
 // Operators https://google.github.io/comprehensive-rust/std-traits/operators.html
 fn operators() {
     #[derive(Debug, Copy, Clone)]
+    struct Point {
+        x: i32,
+        y: i32,
+    }
 }
 
 fn main() {
