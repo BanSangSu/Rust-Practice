@@ -66,7 +66,16 @@ fn operators() {
     println!("{p1:?} +{p2:?} = {:?}", p1 + p2);
 }
 
+
+// From and Into https://google.github.io/comprehensive-rust/std-traits/from-and-into.html#from-and-into
+fn from_and_into() {
+    // from
+    let s = String::from("hello");
+    
+}
+
 fn main() {
     comparisions();
     operators();
+    from_and_into();
 }
