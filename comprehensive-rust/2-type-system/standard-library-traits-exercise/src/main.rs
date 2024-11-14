@@ -71,7 +71,8 @@ fn operators() {
 fn from_and_into() {
     // from
     let s = String::from("hello");
-    
+    let addr = std::net::Ipv4Addr::from([127, 0, 0, 1]);
+
 }
 
 fn main() {
