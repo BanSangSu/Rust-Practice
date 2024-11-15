@@ -72,7 +72,7 @@ fn from_and_into() {
     // from
     let s = String::from("hello");
     let addr = std::net::Ipv4Addr::from([127, 0, 0, 1]);
-
+    let one = i16::from(true);
 }
 
 fn main() {
