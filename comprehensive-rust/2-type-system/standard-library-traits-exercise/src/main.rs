@@ -74,6 +74,7 @@ fn from_and_into() {
     let addr = std::net::Ipv4Addr::from([127, 0, 0, 1]);
     let one = i16::from(true);
     let bigger = i32::from(123_i16);
+    println!("{s}, {addr}, {one}, {bigger}");
 }
 
 fn main() {
