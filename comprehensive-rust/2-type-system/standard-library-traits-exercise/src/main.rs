@@ -75,6 +75,9 @@ fn from_and_into() {
     let one = i16::from(true);
     let bigger = i32::from(123_i16);
     println!("{s}, {addr}, {one}, {bigger}");
+
+    // into
+    let s: String = "hello".into();
 }
 
 fn main() {
