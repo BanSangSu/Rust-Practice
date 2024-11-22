@@ -78,9 +78,10 @@ fn from_and_into() {
 
     // into
     let s1: String = "hello".into();
-    let addr1: std::net:Ipv4Addr = [127, 0, 0, 1].into();
-    let one: i16 = true.into();
-    let bigger: i32 = 123_i16.into();
+    let addr1: std::net::Ipv4Addr = [127, 0, 0, 1].into();
+    let one1: i16 = true.into();
+    let bigger1: i32 = 123_i16.into();
+    println!("{s1}, {addr1}, {one1}, {bigger1}");
 }
 
 fn main() {
