@@ -84,8 +84,16 @@ fn from_and_into() {
     println!("{s1}, {addr1}, {one1}, {bigger1}");
 }
 
+
+// Casting https://google.github.io/comprehensive-rust/std-traits/casting.html#casting
+fn casting() {
+    let value: i64 = 1000;
+    println!("as u16: {}", value as u16);
+}
+
 fn main() {
     comparisions();
     operators();
     from_and_into();
+    casting();
 }
