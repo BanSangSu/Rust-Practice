@@ -93,9 +93,46 @@ fn casting() {
     println!("as u8: {}", value as u8);
 }
 
+
+
+// Read and Write https://google.github.io/comprehensive-rust/std-traits/read-and-write.html
+use std::io::{BufRead, BufReader, Read, Result, Write};
+
+// Read & BufRead
+fn read() -> Result<()> {
+
+    fn count_lines<R: Read>(reader: R) -> usize {
+        let buf_reader = BufReader::new(reader);
+        buf_reader.lines().count()
+    }
+
+    let slice: &[u8] = b"foo\nbar\nbaz\n";
+    println!("lines in slice: {}", count_lines(slice));
+
+    let file = std::fs::File::open(std::env::current_exe()?)?;
+    println!("lines in file: {}", count_lines(file));
+    Ok(())
+}
+
+// Write
+fn write() -> Result<()> {
+    fn log<W: Write>(writer: &mut W, msg: &str) -> Result<()> {
+        writer.write_all(msg.as_bytes())?;
+        writer.write_all("\n".as_bytes())
+    }
+
+    let mut buffer = Vec::new();
+    log(&mut buffer, "Hello")?;
+    log(&mut buffer, "World")?;
+    println!("Logged: {buffer:?}");
+    Ok(())
+}
+
 fn main() {
     comparisions();
     operators();
     from_and_into();
     casting();
+    read();
+    write();
 }
