@@ -128,6 +128,36 @@ fn write() -> Result<()> {
     Ok(())
 }
 
+
+// The Default Trait https://google.github.io/comprehensive-rust/std-traits/default.html
+fn default_trait() {
+    #[derive(Debug, Default)]
+    struct Derived {
+        x: u32,
+        y: String,
+        z: Implemented,
+    }
+
+    #[derive(Debug)]
+    struct Implemented(String);
+
+    impl Default for Implemented {
+        fn default() -> Self {
+            Self("John Smith".into())
+        }
+    }
+
+    let default_struct = Derived::default();
+    println!("{default_struct:#?}");
+
+    let almost_default_struct = 
+        Derived { y: "Y is set!".into(), ..Derived::default() };
+    println!("{almost_default_struct:#?}");
+    
+    let nothing: Option<Derived> = None;
+    println!("{:#?}", nothing.unwrap_or_default());
+}
+
 fn main() {
     comparisions();
     operators();
@@ -135,4 +165,5 @@ fn main() {
     casting();
     read();
     write();
+    default_trait();
 }
