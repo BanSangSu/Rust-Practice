@@ -14,6 +14,9 @@ fn review_programme_memory() {
     }
 }
 
+// Approaches to Memory Management https://google.github.io/comprehensive-rust/memory-management/approaches.html
+// There is no code.
+// Rust's onwership, borrowing, and tools (Rc, Box, etc) model can handle pointer like C alloc and C++'s smart pointers.
 
 
 fn main() {
