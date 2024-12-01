@@ -19,6 +19,19 @@ fn review_programme_memory() {
 // Rust's onwership, borrowing, and tools (Rc, Box, etc) model can handle pointer like C alloc and C++'s smart pointers.
 
 
-fn main() {
+// Ownership https://google.github.io/comprehensive-rust/memory-management/ownership.html#ownership
+struct Point(i32, i32);
+fn ownership() {
+    {
+        let p = Point(3, 4);
+        println!("x: {}", p.0);
+    }
+    // println!("y: {}", p.1); // Cause error not found p.1 in this scope
+}
+
+
+
+fn main() { 
     review_programme_memory();
+    ownership();
 }
