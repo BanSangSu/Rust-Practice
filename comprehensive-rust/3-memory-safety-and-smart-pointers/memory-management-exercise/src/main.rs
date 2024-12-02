@@ -29,9 +29,26 @@ fn ownership() {
     // println!("y: {}", p.1); // Cause error not found p.1 in this scope
 }
 
+// Move Semantics https://google.github.io/comprehensive-rust/memory-management/move.html
+fn move_semantics() {
+    let s1: String = String::from("Cool!");
+    let s2: String = s1;
+    println!("s2: {s2}");
+    // println!("s1: {s1}"); // Error: value borrowed here after move
+
+    fn say_yo(name: String) {
+        println!("Yo, {name}!");
+    }
+
+    let name = String::from("GiGi");
+    say_yo(name);
+    // say_yo(name);
+}
 
 
 fn main() { 
     review_programme_memory();
     ownership();
+    move_semantics();
 }
+
