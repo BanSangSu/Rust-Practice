@@ -46,9 +46,22 @@ fn move_semantics() {
 }
 
 
+// Clone https://google.github.io/comprehensive-rust/memory-management/clone.html
+fn clone() {
+    fn call_me(name: String) {
+        println!("Call me {name}!");
+    } 
+
+    let name = String::from("BoBo");
+    call_me(name.clone());
+    call_me(name);
+}
+
+
 fn main() { 
     review_programme_memory();
     ownership();
     move_semantics();
+    clone();
 }
 
