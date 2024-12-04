@@ -20,7 +20,7 @@ fn review_programme_memory() {
 
 
 // Ownership https://google.github.io/comprehensive-rust/memory-management/ownership.html#ownership
-struct Point(i32, i32);
+// struct Point(i32, i32);
 fn ownership() {
     {
         let p = Point(3, 4);
@@ -58,10 +58,28 @@ fn clone() {
 }
 
 
+// Copy Types https://google.github.io/comprehensive-rust/memory-management/copy-types.html
+#[derive(Copy, Clone, Debug)]
+struct Point(i32, i32);
+
+fn copy_types() {
+    let x = 31;
+    let y = x;
+    println!("x: {x}"); // would not be accessible if not Copy
+    println!("y: {y}");
+
+    let p1 = Point(2, 6);
+    let p2 = p1;
+    println!("p1: {p1:?}");
+    println!("p2: {p2:?}");
+}
+
+
 fn main() { 
     review_programme_memory();
     ownership();
     move_semantics();
     clone();
+    copy_types();
 }
 
