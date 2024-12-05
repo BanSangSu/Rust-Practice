@@ -75,11 +75,40 @@ fn copy_types() {
 }
 
 
+// The Drop Trait https://google.github.io/comprehensive-rust/memory-management/drop.html
+fn drop_trait() {
+    struct Droppable {
+        name: &'static str,
+    }
+
+    impl Drop for Droppable {
+        fn drop(&mut self) {
+            println!("Dropping {}", self.name);
+        }
+    }
+
+    let a = Droppable { name: "a" };
+    {
+        let b = Droppable { name: "b" };
+        {
+            let c = Droppable { name: "c" };
+            let d = Droppable { name: "d" };
+            println!("Exiting block B");
+        }
+        println!("Exiting block A");
+    }
+    // a.drop();
+    drop(a);
+    println!("Exiting main");
+}
+
+
 fn main() { 
     review_programme_memory();
     ownership();
     move_semantics();
     clone();
     copy_types();
+    drop_trait();
 }
 
