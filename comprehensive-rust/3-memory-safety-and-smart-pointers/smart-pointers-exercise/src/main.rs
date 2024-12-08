@@ -1,6 +1,3 @@
-
-
-
 // Box<T> https://google.github.io/comprehensive-rust/smart-pointers/box.html
 # [derive(Debug)]
 enum List<T> {
@@ -16,6 +13,23 @@ fn box_type() {
     println!("{list:?}");
 }
 
+
+// Rc https://google.github.io/comprehensive-rust/smart-pointers/rc.html
+use std::rc::Rc;
+
+
+fn reference_counted() {
+    let a = Rc::new(10);
+    let b = Rc::clone(&a);
+    
+    println!("a: {a}");
+    println!("b: {b}");
+    println!("Strong count of a: {}", Rc::strong_count(&a));
+    println!("Strong count of b: {}", Rc::strong_count(&b));
+}
+
+
 fn main() {
     box_type();
+    reference_counted();
 }
