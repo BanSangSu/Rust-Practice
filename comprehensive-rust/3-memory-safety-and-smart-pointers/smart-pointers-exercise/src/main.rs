@@ -122,7 +122,14 @@ impl<T: Ord> Substree<T> {
     }
 
     fn insert(&mut self, value: T) {
-        self.root.insert(value);
+        match &mut self.0 {
+            None => self.0 = Some(Box::new(Node::new(value))),
+            Some(n) => match value.cmp(&n.value) {
+                Ordering::Less => n.left.insert(value),
+                Ordering::Equal => {},
+                Ordering::Greater => n.right.insert(value),
+            },
+        }
     }
 
     fn has(&self, value: &T) -> bool {
