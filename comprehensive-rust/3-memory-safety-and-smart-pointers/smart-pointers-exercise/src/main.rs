@@ -133,7 +133,14 @@ impl<T: Ord> Substree<T> {
     }
 
     fn has(&self, value: &T) -> bool {
-        self.root.has(value)
+        match &mut self.0 {
+            None => false,
+            Some(n) => match value.cmp(&n.value) {
+                Ordering::Less => n.left.has(value),
+                Ordering::Equal => true,
+                Ordering::Greater => n.right.has(value),
+            },
+        }
     }
 
     fn len(&self) -> usize {
