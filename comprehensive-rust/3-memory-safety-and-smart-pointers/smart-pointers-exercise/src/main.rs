@@ -144,7 +144,10 @@ impl<T: Ord> Substree<T> {
     }
 
     fn len(&self) -> usize {
-        self.root.len()
+        match &mut self.0 {
+            None => 0,
+            Some(n) => 1 + n.left.len() + n.right.len(),
+        }
     }
 }
 
