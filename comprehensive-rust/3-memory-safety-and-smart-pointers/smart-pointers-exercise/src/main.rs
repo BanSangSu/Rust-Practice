@@ -116,7 +116,7 @@ impl<T: Ord> BinaryTree<T> {
 }
 
 // Implement `new`, `insert`, `len`, and `has` for `Subtree`.
-impl<T: Ord> Substree<T> {
+impl<T: Ord> Subtree<T> {
     fn new() -> Self {
         Self(None)
     }
@@ -133,7 +133,7 @@ impl<T: Ord> Substree<T> {
     }
 
     fn has(&self, value: &T) -> bool {
-        match &mut self.0 {
+        match &self.0 {
             None => false,
             Some(n) => match value.cmp(&n.value) {
                 Ordering::Less => n.left.has(value),
@@ -144,10 +144,16 @@ impl<T: Ord> Substree<T> {
     }
 
     fn len(&self) -> usize {
-        match &mut self.0 {
+        match &self.0 {
             None => 0,
             Some(n) => 1 + n.left.len() + n.right.len(),
         }
+    }
+}
+
+impl<T: Ord> Node<T> {
+    fn new(value: T) -> Self {
+        Self { value, left: Subtree::new(), right: Subtree::new() }
     }
 }
 
@@ -198,8 +204,18 @@ mod tests {
     }
 }
 
+fn btree_exercise() {
+    let mut tree = BinaryTree::new();
+    tree.insert("foo");
+    assert_eq!(tree.len(), 1);
+    tree.insert("bar");
+    assert!(tree.has(&"foo"));
+}
+
 
 fn main() {
+    btree_exercise();
+
     // box_type();
     // reference_counted();
     // owned_trait_objects();
