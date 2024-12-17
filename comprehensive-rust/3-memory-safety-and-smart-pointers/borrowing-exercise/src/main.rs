@@ -26,6 +26,14 @@ fn borrowing_checking() {
     // };
     // println!("x: {x_ref}");
 
+    let mut a: i32 = 10;
+    let b: &i32 = &a;
+    // {
+    //     let c: &mut i32 = &mut a; // cause error: mutable borrow occurs here
+    //     *c = 20;
+    // }
+    println!("a: {a}");
+    println!("b: {b}");
 }
 
 
