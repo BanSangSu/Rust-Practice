@@ -46,7 +46,22 @@ fn borrowing_checking() {
 }
 
 
+// Borrow Errors https://google.github.io/comprehensive-rust/borrowing/examples.html
+fn borrow_errors() {
+    // let mut vec = vec![1, 2, 3, 4, 5];
+    // let elem = &vec[2];
+    // vec.push(6); // cause error: mutable borrow occurs here
+    // println!("{elem}");
+
+    // let mut vec2 = vec![1, 2, 3, 4, 5];
+    // for element in &vec2 {
+    //     vec2.push(element * 2); // cause error: mutable borrow occurs here
+    // }
+    
+}
+
 fn main() {
     borrowing_a_value();
     borrowing_checking();
+    borrow_errors();
 }
