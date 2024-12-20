@@ -60,8 +60,21 @@ fn borrow_errors() {
     
 }
 
+
+// Interior Mutability https://google.github.io/comprehensive-rust/borrowing/interior-mutability.html
+use std::cell::Cell;
+
+fn interior_mutability() {
+    // Note that `cell` is NOT declared as mutable.
+    let cell = Cell::new(5);
+
+    cell.set(123);
+    println!("{}", cell.get());
+}
+
 fn main() {
     borrowing_a_value();
     borrowing_checking();
     borrow_errors();
+    interior_mutability();
 }
