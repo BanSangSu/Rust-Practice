@@ -62,7 +62,7 @@ fn borrow_errors() {
 
 
 // Interior Mutability https://google.github.io/comprehensive-rust/borrowing/interior-mutability.html
-use std::cell::Cell;
+use std::cell::{Cell, RefCell};
 
 fn interior_mutability() {
     // Note that `cell` is NOT declared as mutable.
@@ -70,6 +70,19 @@ fn interior_mutability() {
 
     cell.set(123);
     println!("{}", cell.get());
+
+    let refcell = RefCell::new(5);
+
+    {
+        let mut cell_ref = refcell.borrow_mut();
+        *cell_ref = 123;
+
+        // This triggers an error at runtime.
+        // let other = cell.borrow();
+        // println!("{}", *other);
+    }
+
+    println!("{refcell:?}");
 }
 
 fn main() {
