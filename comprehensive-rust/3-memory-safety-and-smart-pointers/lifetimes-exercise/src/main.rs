@@ -1,6 +1,5 @@
 // Lifetime Annotations https://google.github.io/comprehensive-rust/lifetimes/lifetime-annotations.html
 
-
 fn lifetime_annotations() {
     #[derive(Debug)]
     struct Point(i32, i32);
@@ -18,6 +17,11 @@ fn lifetime_annotations() {
     let p3 = left_most(&p1, &p2); // What is the lifetime of p3?
     println!("p3: {p3:?}");
 }
+
+
+// Lifetimes in Function Calls https://google.github.io/comprehensive-rust/lifetimes/lifetime-elision.html
+
+
 
 
 fn main() {
