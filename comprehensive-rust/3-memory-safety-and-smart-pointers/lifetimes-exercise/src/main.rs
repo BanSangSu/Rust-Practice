@@ -21,6 +21,10 @@ fn lifetime_annotations() {
 
 // Lifetimes in Function Calls https://google.github.io/comprehensive-rust/lifetimes/lifetime-elision.html
 
+#[derive(Debug)]
+struct Point(i32, i32);
+
+
 
 
 
