@@ -24,7 +24,9 @@ fn lifetime_annotations() {
 #[derive(Debug)]
 struct Point(i32, i32);
 
-
+fn cab_distance(p1: &Point, p2: &Point) -> i32 {
+    
+}
 
 
 
