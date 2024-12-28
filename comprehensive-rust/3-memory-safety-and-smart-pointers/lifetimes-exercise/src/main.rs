@@ -21,15 +21,23 @@ fn lifetime_annotations() {
 
 // Lifetimes in Function Calls https://google.github.io/comprehensive-rust/lifetimes/lifetime-elision.html
 
-#[derive(Debug)]
-struct Point(i32, i32);
+fn lifetimes_in_function_calls() {
+    #[derive(Debug)]
+    struct Point(i32, i32);
+    
+    fn cab_distance(p1: &Point, p2: &Point) -> i32 {
+        (p1.0 - p2.0).abs() + (p1.1 - p2.1).abs()
+    }
 
-fn cab_distance(p1: &Point, p2: &Point) -> i32 {
-    (p1.0 - p2.0).abs() + (p1.1 - p2.1).abs()
+    
+
 }
 
 
 
+
+
 fn main() {
+    lifetimes_in_function_calls();
     lifetime_annotations();
 }
