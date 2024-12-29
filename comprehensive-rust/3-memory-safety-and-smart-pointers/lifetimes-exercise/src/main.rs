@@ -29,7 +29,9 @@ fn lifetimes_in_function_calls() {
         (p1.0 - p2.0).abs() + (p1.1 - p2.1).abs()
     }
 
-    
+    fn find_nearest<'a>(points: &'a [Point], query: &Point) -> Option<&'a Point> {
+        
+    }
 
 }
 
