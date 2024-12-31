@@ -31,7 +31,9 @@ fn lifetimes_in_function_calls() {
 
     fn find_nearest<'a>(points: &'a [Point], query: &Point) -> Option<&'a Point> {
         let mut nearest = None;
-        
+        for p in points {
+            
+        }
     }
 
 }
