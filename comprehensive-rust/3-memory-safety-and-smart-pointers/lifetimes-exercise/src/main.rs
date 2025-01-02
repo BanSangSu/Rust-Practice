@@ -33,6 +33,7 @@ fn lifetimes_in_function_calls() {
         let mut nearest = None;
         for p in points {
             if let Some((_, nearest_dist)) = nearest {
+                let dist = cab_distance(p, query);
                 
             }
         }
