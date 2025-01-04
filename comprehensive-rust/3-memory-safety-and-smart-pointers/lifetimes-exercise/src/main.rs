@@ -35,7 +35,7 @@ fn lifetimes_in_function_calls() {
             if let Some((_, nearest_dist)) = nearest {
                 let dist = cab_distance(p, query);
                 if dist < nearest_dist {
-                    
+                    nearest = Some((p, dist));
                 }
             }
         }
