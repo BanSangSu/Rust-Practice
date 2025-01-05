@@ -37,8 +37,11 @@ fn lifetimes_in_function_calls() {
                 if dist < nearest_dist {
                     nearest = Some((p, dist));
                 }
-            }
+            } else {
+                nearest = Some((p, cab_distance(p, query)));
+            };
         }
+        
     }
 
 }
