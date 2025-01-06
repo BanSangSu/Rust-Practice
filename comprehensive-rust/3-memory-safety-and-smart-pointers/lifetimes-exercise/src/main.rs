@@ -41,7 +41,7 @@ fn lifetimes_in_function_calls() {
                 nearest = Some((p, cab_distance(p, query)));
             };
         }
-        
+        nearest.map(|(p, _)| p)
     }
 
 }
