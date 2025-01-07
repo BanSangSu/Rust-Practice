@@ -44,6 +44,8 @@ fn lifetimes_in_function_calls() {
         nearest.map(|(p, _)| p)
     }
 
+    let points = &[Point(1, 0), Point(1, 0), Point(-1, 0), Point(0, -1),];
+    
 }
 
 
