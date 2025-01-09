@@ -49,7 +49,7 @@ fn lifetimes_in_function_calls() {
         let query = Point(0, 2);
         find_nearest(points, &Point(0, 2))
     };
-    
+    println!("{:?}", nearest);
 }
 
 
