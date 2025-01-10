@@ -45,7 +45,7 @@ fn lifetimes_in_function_calls() {
     }
 
     let points = &[Point(1, 0), Point(1, 0), Point(-1, 0), Point(0, -1),];
-    let nearest {
+    let nearest = {
         let query = Point(0, 2);
         find_nearest(points, &Point(0, 2))
     };
