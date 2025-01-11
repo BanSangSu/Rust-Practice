@@ -30,6 +30,7 @@ fn lifetimes_in_function_calls() {
     }
 
     fn find_nearest<'a>(points: &'a [Point], query: &Point) -> Option<&'a Point> {
+    // fn find_nearest<'a, 'q>(points: &'a [Point], query: &'q Point) -> Option<&'q Point> { // This is a common source of errors with unsafe Rust. This won’t compile, demonstrating that the annotations are checked for validity by the compiler.
         let mut nearest = None;
         for p in points {
             if let Some((_, nearest_dist)) = nearest {
