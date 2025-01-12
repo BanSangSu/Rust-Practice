@@ -53,11 +53,19 @@ fn lifetimes_in_function_calls() {
     println!("{:?}", nearest);
 }
 
+// Lifetimes in Data Structures https://google.github.io/comprehensive-rust/lifetimes/struct-lifetimes.html
 
-
+fn lifetime_in_data_structures() {
+    #[derive(Debug)]
+    enum HightlightColor {
+        Pink,
+        Yellow,
+    }
+}
 
 
 fn main() {
+    lifetime_in_data_structures();
     lifetimes_in_function_calls();
     lifetime_annotations();
 }
