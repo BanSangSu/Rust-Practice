@@ -57,10 +57,18 @@ fn lifetimes_in_function_calls() {
 
 fn lifetime_in_data_structures() {
     #[derive(Debug)]
-    enum HightlightColor {
+    enum HighlightColor {
         Pink,
         Yellow,
     }
+
+    #[derive(Debug)]
+    struct Highlight<'document> {
+        slice: &'document str,
+        color: HighlightColor,
+    }
+
+    
 }
 
 
