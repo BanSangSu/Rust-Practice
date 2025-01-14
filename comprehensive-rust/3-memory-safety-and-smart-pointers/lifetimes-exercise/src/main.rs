@@ -68,6 +68,7 @@ fn lifetime_in_data_structures() {
         color: HighlightColor,
     }
 
+    let doc = String::from("The quick brown fox jumps over the lazy dog.");
     
 }
 
