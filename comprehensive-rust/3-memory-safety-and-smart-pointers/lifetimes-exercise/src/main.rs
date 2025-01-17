@@ -71,7 +71,9 @@ fn lifetime_in_data_structures() {
     let doc = String::from("The quick brown fox jumps over the lazy dog.");
     let noun = Highlight {slice: &doc[16..19], color: HighlightColor::Yellow};
     let verb = Highlight {slice: &doc[20..25], color: HighlightColor::Pink};
-    
+    // drop(doc); # It causes an error (by the borrow checker).
+    dbg!(noun);
+    dbg!(verb);
 }
 
 
