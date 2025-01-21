@@ -18,6 +18,12 @@ fn motivating_iterators() {
     }
 }
 
+// Iterator Trait https://google.github.io/comprehensive-rust/iterators/iterator.html
+struct SliceIter<'s> {
+    slice: &'s [i32],
+    i:usize,
+}
+
 
 fn main() {
     motivating_iterators();
