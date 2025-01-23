@@ -31,6 +31,10 @@ fn iterator_trait() {
         fn next(&mut self) -> Option<Self::Item> {
             if self.i == self.slice.len() {
                 None
+            }else {
+                let next = &self.slice[self.i];
+                self.i += 1;
+                Some(next)
             }
         }
     }
