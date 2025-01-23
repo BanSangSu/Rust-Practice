@@ -28,7 +28,11 @@ fn iterator_trait() {
     impl<'s> Iterator for SliceIter<'s> {
         type Item = &'s i32;
 
-        
+        fn next(&mut self) -> Option<Self::Item> {
+            if self.i == self.slice.len() {
+                None
+            }
+        }
     }
 }
 
