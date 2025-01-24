@@ -38,6 +38,9 @@ fn iterator_trait() {
             }
         }
     }
+
+    let slice = &[2, 4, 6, 8];
+    
 }
 
 
