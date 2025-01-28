@@ -56,10 +56,16 @@ fn iterator_helper_methods() {
     println!("The sum of squares of even numbers from 1 to 10 is: {}", result);
 }
 
+// Collect https://google.github.io/comprehensive-rust/iterators/collect.html
+fn collect() {
+    let primes = vec![2, 3, 5, 7];
+
+}
 
 fn main() {
     
-    iterator_helper_methods();
+    collect();
+    // iterator_helper_methods();
     // iterator_trait();
     // motivating_iterators();
 }
