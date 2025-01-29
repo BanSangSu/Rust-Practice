@@ -59,11 +59,12 @@ fn iterator_helper_methods() {
 // Collect https://google.github.io/comprehensive-rust/iterators/collect.html
 fn collect() {
     let primes = vec![2, 3, 5, 7];
-
+    let prime_squares = primes.into_iter().map(|p| p * p).collect::<Vec<_>>();
+    println!("prime_squares: {prime_squares:?}");
 }
 
 fn main() {
-    
+
     collect();
     // iterator_helper_methods();
     // iterator_trait();
