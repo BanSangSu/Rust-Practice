@@ -63,9 +63,18 @@ fn collect() {
     println!("prime_squares: {prime_squares:?}");
 }
 
-fn main() {
+fn into_iterator() {
+    struct Grid {
+        x_coords: Vec<u32>,
+        y_coords: Vec<u32>,
+    }
 
-    collect();
+    
+}
+
+fn main() {
+    into_iterator();
+    // collect();
     // iterator_helper_methods();
     // iterator_trait();
     // motivating_iterators();
