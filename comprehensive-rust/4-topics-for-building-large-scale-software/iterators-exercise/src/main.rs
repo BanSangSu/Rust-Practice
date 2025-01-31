@@ -69,6 +69,14 @@ fn into_iterator() {
         y_coords: Vec<u32>,
     }
 
+    impl IntoIterator for Grid {
+        type Item = (u32, u32);
+        type IntoIter = GridIter;
+        fn into_iter(self) -> GridIter {
+            GridIter { grid: self, i: 0, j: 0 }
+        }
+    }
+
     
 }
 
