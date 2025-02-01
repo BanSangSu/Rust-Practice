@@ -77,6 +77,12 @@ fn into_iterator() {
         }
     }
 
+    struct GridIter {
+        grid; Grid,
+        i: usize,
+        j: usize,
+    }    
+    
     
 }
 
