@@ -1,6 +1,7 @@
 //! This module implements the garden library, including seed sowing and harvesting logic.
+// Set the lib to use lib.rs in Cargo.toml
 
-// Declare submodules using directories with `moduler.rs`.
+// Declare submodules using directories with `module.rs (garden.rs, seeds.rs)`.
 pub mod garden;
 pub mod seeds;
 

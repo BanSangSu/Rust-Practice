@@ -48,9 +48,38 @@ fn filesystem_hierarchy() {
     println!("Garden project complete!");
 }
 
-
+// Visibility https://google.github.io/comprehensive-rust/modules/visibility.html
+fn visibility() {
+    mod outer {
+        fn private() {
+            println!("outer::private");
+        }
+    
+        pub fn public() {
+            println!("outer::public");
+        }
+        
+        pub mod inner {
+        // pub(in crate) mod inner {
+        // pub(crate) mod inner {
+        // pub(super) mod inner {
+        // mod inner {
+            fn private() {
+                println!("outer::inner::private");
+            }
+    
+            pub fn public() {
+                println!("outer::inner::public");
+                super::private();
+            }        
+        }
+    }
+    outer::public();
+    outer::inner::public();
+}
 
 fn main() {
-    filesystem_hierarchy();
+    visibility();
+    // filesystem_hierarchy();
     // module();
 }
