@@ -18,35 +18,35 @@ fn module() {
 }
 
 // Filesystem Hierarchy https://google.github.io/comprehensive-rust/modules/filesystem.html
-use garden_project::{Garden, SeedPacket, sow, harvest};
-fn filesystem_hierarchy() {
-    println!("Welcome to the Garden Project!");
+// use garden_project::{Garden, SeedPacket, sow, harvest};
+// fn filesystem_hierarchy() {
+//     println!("Welcome to the Garden Project!");
     
-    // Create some seed packets
-    let seeds = vec![
-        SeedPacket::new("Carrot"),
-        SeedPacket::new("Tomato"),
-        SeedPacket::new("Lettuce"),
-    ];
+//     // Create some seed packets
+//     let seeds = vec![
+//         SeedPacket::new("Carrot"),
+//         SeedPacket::new("Tomato"),
+//         SeedPacket::new("Lettuce"),
+//     ];
 
-    // Sow the seeds
-    println!("Sowing seeds...");
-    sow(seeds.clone());
+//     // Sow the seeds
+//     println!("Sowing seeds...");
+//     sow(seeds.clone());
 
-    let mut garden = Garden::new();
-    for seed in &seeds {
-        garden.plant(&seed.name);
-    }
+//     let mut garden = Garden::new();
+//     for seed in &seeds {
+//         garden.plant(&seed.name);
+//     }
 
-    // Simulate time passing
-    println!("Time passes... The plants are ready to harvest!");
+//     // Simulate time passing
+//     println!("Time passes... The plants are ready to harvest!");
 
-    // Harvest the garden
-    println!("Harvesting...");
-    harvest(&mut garden);
+//     // Harvest the garden
+//     println!("Harvesting...");
+//     harvest(&mut garden);
 
-    println!("Garden project complete!");
-}
+//     println!("Garden project complete!");
+// }
 
 // Visibility https://google.github.io/comprehensive-rust/modules/visibility.html
 fn visibility() {
@@ -110,9 +110,30 @@ fn visibility_and_encapsulation() {
     // println!("Is {} big? {}", foo.val, foo.is_big);
 }
 
+// use, super, self https://google.github.io/comprehensive-rust/modules/paths.html
+use garden_project::Garden;
+fn use_super_self() {
+    let seeds = vec![
+        "Apple",
+        "Grape",
+        "Watermelon",
+    ];
+
+    let mut garden = Garden::new();
+    for seed in seeds {
+        garden.plant(&seed);
+    }
+    println!("zzZ");
+    let produce = garden.harvest();
+    for item in produce {
+        println!("Harvested: {}", item);
+    }
+    println!(">3<");
+}
 
 fn main() {
-    visibility_and_encapsulation();
+    use_super_self();
+    // visibility_and_encapsulation();
     // visibility();
     // filesystem_hierarchy();
     // module();
