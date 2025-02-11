@@ -26,5 +26,11 @@ mod tests {
     }
 }
 
+// Other Types of Tests https://google.github.io/comprehensive-rust/testing/other.html
+// at my_library.rs in tests folder.
+
+// Compiler Lints and Clippy https://google.github.io/comprehensive-rust/testing/lints.html
+
+
 fn main() {
 }
