@@ -30,7 +30,16 @@ mod tests {
 // at my_library.rs in tests folder.
 
 // Compiler Lints and Clippy https://google.github.io/comprehensive-rust/testing/lints.html
-
-
+// fn compiler_lints_and_clippy() {
+    // 
+    // }
+    
+#[deny(clippy::cast_possible_truncation)]
+// #![deny(clippy::cast_possible_truncation)]
 fn main() {
+    let mut x = 3;
+    while (x < 70000) {
+        x *= 2;
+    }
+    println!("X probably fits in a u16, right? {}", x as u16);
 }
