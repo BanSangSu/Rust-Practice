@@ -34,12 +34,61 @@ mod tests {
     // 
     // }
     
-#[deny(clippy::cast_possible_truncation)]
-// #![deny(clippy::cast_possible_truncation)]
-fn main() {
-    let mut x = 3;
-    while (x < 70000) {
-        x *= 2;
+// #[deny(clippy::cast_possible_truncation)]
+// // #![deny(clippy::cast_possible_truncation)]
+// fn main() {
+//     let mut x = 3;
+//     while (x < 70000) {
+//         x *= 2;
+//     }
+//     println!("X probably fits in a u16, right? {}", x as u16);
+// }
+
+
+
+//////
+// Exercise: Luhn Algorithm https://google.github.io/comprehensive-rust/testing/exercise.html
+pub fn luhn(cc_number: &str) -> bool {
+    let mut sum = 0;
+    let mut double = false;
+
+    for c in cc_number.chars().rev() {
+        if let Some(digit) = c.to_digit(10) {
+            if double {
+                let double_digit = digit * 2;
+                sum +=
+                    if double_digit > 9 { double_digit - 9 } else { double_digit };
+            } else {
+                sum += digit;
+            }
+            double = !double;
+        } else {
+            continue;
+        }
     }
-    println!("X probably fits in a u16, right? {}", x as u16);
+
+    sum % 10 == 0
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_valid_cc_number() {
+        assert!(luhn("4263 9826 4026 9299"));
+        assert!(luhn("4539 3195 0343 6467"));
+        assert!(luhn("7992 7398 713"));
+    }
+
+    #[test]
+    fn test_invalid_cc_number() {
+        assert!(!luhn("4223 9826 4026 9299"));
+        assert!(!luhn("4539 3195 0343 6476"));
+        assert!(!luhn("8273 1232 7352 0569"));
+    }
+}
+
+fn main() {
+    
 }
