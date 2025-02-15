@@ -12,7 +12,13 @@ fn panics() {
         panic!("oh no!");
     });
     dbg!(result);
+    
 }
+
+// it doesn't work, but I don't know why...
+// in Cargo.toml
+// [profile.dev]
+// panic = 'abort'
 
 fn main() {
     panics();
