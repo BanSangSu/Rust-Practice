@@ -62,7 +62,7 @@ fn try_operator() {
 
     }
 
-    //  fs::write("config.dat", "alice").unwrap();
+     fs::write("config.dat", "alice").unwrap();
      let username = read_username("config.dat");
      println!("username or error: {username:?}");
 
