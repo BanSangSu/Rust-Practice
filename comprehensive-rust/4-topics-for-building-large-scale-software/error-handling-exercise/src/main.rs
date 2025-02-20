@@ -43,40 +43,84 @@ fn panics() {
 // }
 
 // Try Operator https://google.github.io/comprehensive-rust/error-handling/try.html
-use std::io::Read;
-use std::{fs, io};
+// use std::io::Read;
+// use std::{fs, io};
 
-fn try_operator() {
-    fn read_username(path: &str) -> Result<String, io::Error> {
-        // let username_file_result = fs::File::open(path);
-        // let mut username_file = match username_file_result {
-        //     Ok(file) => file,
-        //     Err(err) => return Err(err),
-        // };
+// fn try_operator() {
+//     fn read_username(path: &str) -> Result<String, io::Error> {
+//         // let username_file_result = fs::File::open(path);
+//         // let mut username_file = match username_file_result {
+//         //     Ok(file) => file,
+//         //     Err(err) => return Err(err),
+//         // };
 
-        // let mut username = String::new();
-        // match username_file.read_to_string(&mut username) {
-        //     Ok(_) => Ok(username),
-        //     Err(err) => Err(err),
-        // }
+//         // let mut username = String::new();
+//         // match username_file.read_to_string(&mut username) {
+//         //     Ok(_) => Ok(username),
+//         //     Err(err) => Err(err),
+//         // }
 
-        // Simplified version
-        let mut username = String::new();
-        fs::File::open(path)?.read_to_string(&mut username)?;
-        Ok(username)
+//         // Simplified version
+//         let mut username = String::new();
+//         fs::File::open(path)?.read_to_string(&mut username)?;
+//         Ok(username)
         
+//     }
+
+//     //  fs::write("config.dat", "alice").unwrap();
+//      let username = read_username("config.dat");
+//      println!("username or error: {username:?}");
+
+// }
+
+// Try Conversions https://google.github.io/comprehensive-rust/error-handling/try-conversions.html
+use std::error::Error;
+use std::io::Read;
+use std::{fmt, fs, io};
+
+fn try_conversion() {
+    #[derive(Debug)]
+    enum ReadUsernameError {
+        IoError(io::Error),
+        EmptyUsername(String),
+    }
+    
+    impl Error for ReadUsernameError {}
+    
+    impl fmt::Display for ReadUsernameError {
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+            match self {
+                Self::IoError(e) => write!(f, "I/O error: {e}"),
+                Self::EmptyUsername(path) => write!(f, "Found no username in {path}"),
+            }
+        }
     }
 
-    //  fs::write("config.dat", "alice").unwrap();
-     let username = read_username("config.dat");
-     println!("username or error: {username:?}");
+    impl From<io::Error> for ReadUsernameError {
+        fn from(err: io::Error) -> Self {
+            Self::IoError(err)
+        }
+    }
 
+    fn read_username(path: &str) -> Result<String, ReadUsernameError> {
+        let mut username = String::with_capacity(100);
+        fs::File::open(path)?.read_to_string(&mut username)?;
+        if username.is_empty() {
+            return Err(ReadUsernameError::EmptyUsername(String::from(path)));
+        }
+        Ok(username)
+    }
+
+    //std::fs::write("config.dat", "").unwrap();
+    let username = read_username("config.dat");
+    println!("username or error: {username:?}");
 }
 
 
 
 fn main() {
-    try_operator();
+    try_conversion();
+    // try_operator();
     // result();
     // panics();
 }
