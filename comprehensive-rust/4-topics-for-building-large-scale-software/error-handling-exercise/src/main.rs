@@ -1,19 +1,19 @@
 // Panics https://google.github.io/comprehensive-rust/error-handling/panics.html
-use std::panic;
+// use std::panic;
 
-fn panics() {
-    // let v = vec![10, 20, 30];
-    // dbg!(v[100]); // index out of bounds error
+// fn panics() {
+//     // let v = vec![10, 20, 30];
+//     // dbg!(v[100]); // index out of bounds error
 
-    let result = panic::catch_unwind(|| "No problem here!");
-    dbg!(result);
+//     let result = panic::catch_unwind(|| "No problem here!");
+//     dbg!(result);
 
-    let result = panic::catch_unwind(|| {
-        panic!("oh no!");
-    });
-    dbg!(result);
+//     let result = panic::catch_unwind(|| {
+//         panic!("oh no!");
+//     });
+//     dbg!(result);
     
-}
+// }
 
 // it doesn't work, but I don't know why...
 // in Cargo.toml
@@ -119,27 +119,59 @@ fn panics() {
 
 
 // Dynamic Error Types https://google.github.io/comprehensive-rust/error-handling/error.html
-use std::error::Error;
-use std::fs;
-use std::io::Read;
+// use std::error::Error;
+// use std::fs;
+// use std::io::Read;
 
-fn dynamic_error_types() {
-    fn read_count(path: &str) -> Result<i32, Box<dyn Error>> {
-        let mut count_str = String::new();
-        fs::File::open(path)?.read_to_string(&mut count_str)?;
-        let count:i32 = count_str.parse()?;
-        Ok(count)
+// fn dynamic_error_types() {
+//     fn read_count(path: &str) -> Result<i32, Box<dyn Error>> {
+//         let mut count_str = String::new();
+//         fs::File::open(path)?.read_to_string(&mut count_str)?;
+//         let count:i32 = count_str.parse()?;
+//         Ok(count)
+//     }
+
+//     fs::write("count.dat", "1i3").unwrap();
+//     match read_count("count.dat") {
+//         Ok(count) => println!("Count: {count}"),
+//         Err(err) => println!("Error: {err}"),
+//     }
+// }
+
+
+// thiserror https://google.github.io/comprehensive-rust/error-handling/thiserror.html
+use std::io::Read;
+use std::{fs, io};
+use thiserror::Error;
+
+fn thiserror() {
+    #[derive(Debug, Error)]
+    enum ReadUsernameError {
+        #[error("I/O error: {0}")]
+        IoError(#[from] io::Error),
+        #[error("Found no username in {0}")]
+        EmptyUsername(String),
     }
 
-    fs::write("count.dat", "1i3").unwrap();
-    match read_count("count.dat") {
-        Ok(count) => println!("Count: {count}"),
-        Err(err) => println!("Error: {err}"),
+    fn read_username(path: &str) -> Result<String, ReadUsernameError> {
+        let mut username = String::with_capacity(100);
+        fs::File::open(path)?.read_to_string(&mut username)?;
+        if username.is_empty() {
+            return Err(ReadUsernameError::EmptyUsername(String::from(path)));
+        }
+        Ok(username)
+    }
+
+    //fs::write("config.dat", "").unwrap();
+    match read_username("config.dat") {
+        Ok(username) => println!("Username: {username}"),
+        Err(err) => println!("Error: {err:?}"),
     }
 }
 
 fn main() {
-    dynamic_error_types();
+    thiserror(); // add thiserror = "1.0" below [dependencies] in Cargo.toml
+    // dynamic_error_types();
     // try_conversion();
     // try_operator();
     // result();
