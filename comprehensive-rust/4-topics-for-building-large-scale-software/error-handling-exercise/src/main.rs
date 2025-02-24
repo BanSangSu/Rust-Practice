@@ -140,24 +140,55 @@
 
 
 // thiserror https://google.github.io/comprehensive-rust/error-handling/thiserror.html
+// use std::io::Read;
+// use std::{fs, io};
+// use thiserror::Error;
+
+// fn thiserror() {
+//     #[derive(Debug, Error)]
+//     enum ReadUsernameError {
+//         #[error("I/O error: {0}")]
+//         IoError(#[from] io::Error),
+//         #[error("Found no username in {0}")]
+//         EmptyUsername(String),
+//     }
+
+//     fn read_username(path: &str) -> Result<String, ReadUsernameError> {
+//         let mut username = String::with_capacity(100);
+//         fs::File::open(path)?.read_to_string(&mut username)?;
+//         if username.is_empty() {
+//             return Err(ReadUsernameError::EmptyUsername(String::from(path)));
+//         }
+//         Ok(username)
+//     }
+
+//     //fs::write("config.dat", "").unwrap();
+//     match read_username("config.dat") {
+//         Ok(username) => println!("Username: {username}"),
+//         Err(err) => println!("Error: {err:?}"),
+//     }
+// }
+
+
+// anyhow https://google.github.io/comprehensive-rust/error-handling/anyhow.html
+use anyhow::{bail, Context, Result};
+use std::fs;
 use std::io::Read;
-use std::{fs, io};
 use thiserror::Error;
 
-fn thiserror() {
-    #[derive(Debug, Error)]
-    enum ReadUsernameError {
-        #[error("I/O error: {0}")]
-        IoError(#[from] io::Error),
-        #[error("Found no username in {0}")]
-        EmptyUsername(String),
-    }
+#[derive(Clone, Debug, Eq, Error, PartialEq)]
+#[error("Found no username in {0}")]
+struct EmptyUsernameError(String);
 
-    fn read_username(path: &str) -> Result<String, ReadUsernameError> {
+fn anyhow() {
+    fn read_username(path: &str) -> Result<String> {
         let mut username = String::with_capacity(100);
-        fs::File::open(path)?.read_to_string(&mut username)?;
+        fs::File::open(path)
+            .with_context(|| format!("Failed to open {path}"))?
+            .read_to_string(&mut username)
+            .context("Failed to read")?;
         if username.is_empty() {
-            return Err(ReadUsernameError::EmptyUsername(String::from(path)));
+            bail!(EmptyUsernameError(path.to_string()));
         }
         Ok(username)
     }
@@ -170,7 +201,8 @@ fn thiserror() {
 }
 
 fn main() {
-    thiserror(); // add thiserror = "1.0" below [dependencies] in Cargo.toml
+    anyhow(); // add anyhow = "1.0" below [dependencies] in Cargo.toml
+    // thiserror(); // add thiserror = "1.0" below [dependencies] in Cargo.toml
     // dynamic_error_types();
     // try_conversion();
     // try_operator();
