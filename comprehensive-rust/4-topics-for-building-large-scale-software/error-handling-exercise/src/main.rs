@@ -171,37 +171,113 @@
 
 
 // anyhow https://google.github.io/comprehensive-rust/error-handling/anyhow.html
-use anyhow::{bail, Context, Result};
-use std::fs;
-use std::io::Read;
-use thiserror::Error;
+// use anyhow::{bail, Context, Result};
+// use std::fs;
+// use std::io::Read;
+// use thiserror::Error;
 
-#[derive(Clone, Debug, Eq, Error, PartialEq)]
-#[error("Found no username in {0}")]
-struct EmptyUsernameError(String);
+// #[derive(Clone, Debug, Eq, Error, PartialEq)]
+// #[error("Found no username in {0}")]
+// struct EmptyUsernameError(String);
 
-fn anyhow() {
-    fn read_username(path: &str) -> Result<String> {
-        let mut username = String::with_capacity(100);
-        fs::File::open(path)
-            .with_context(|| format!("Failed to open {path}"))?
-            .read_to_string(&mut username)
-            .context("Failed to read")?;
-        if username.is_empty() {
-            bail!(EmptyUsernameError(path.to_string()));
+// fn anyhow() {
+//     fn read_username(path: &str) -> Result<String> {
+//         let mut username = String::with_capacity(100);
+//         fs::File::open(path)
+//             .with_context(|| format!("Failed to open {path}"))?
+//             .read_to_string(&mut username)
+//             .context("Failed to read")?;
+//         if username.is_empty() {
+//             bail!(EmptyUsernameError(path.to_string()));
+//         }
+//         Ok(username)
+//     }
+
+//     //fs::write("config.dat", "").unwrap();
+//     match read_username("config.dat") {
+//         Ok(username) => println!("Username: {username}"),
+//         Err(err) => println!("Error: {err:?}"),
+//     }
+// }
+
+
+//////
+// Exercise: Rewriting with Result https://google.github.io/comprehensive-rust/error-handling/exercise.html
+
+/// An operation to perform on two subexpressions.
+#[derive(Debug)]
+enum Operation {
+    Add,
+    Sub,
+    Mul,
+    Div,
+}
+
+/// An expression, in tree form.
+#[derive(Debug)]
+enum Expression {
+    /// An operation on two subexpressions.
+    Op { op: Operation, left: Box<Expression>, right: Box<Expression> },
+
+    /// A literal value
+    Value(i64),
+}
+
+#[derive(PartialEq, Eq, Debug)]
+struct DivideByZeroError;
+
+// The original implementation of the expression evaluator. Update this to
+// return a `Result` and produce an error when dividing by 0.
+fn eval(e: Expression) -> i64 {
+    match e {
+        Expression::Op { op, left, right } => {
+            let left = eval(*left);
+            let right = eval(*right);
+            match op {
+                Operation::Add => left + right,
+                Operation::Sub => left - right,
+                Operation::Mul => left * right,
+                Operation::Div => if right != 0 {
+                    left / right
+                } else {
+                    panic!("Cannot divide by zero!");
+                },
+            }
         }
-        Ok(username)
+        Expression::Value(v) => v,
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_error() {
+        assert_eq!(
+            eval(Expression::Op {
+                op: Operation::Div,
+                left: Box::new(Expression::Value(99)),
+                right: Box::new(Expression::Value(0)),
+            }),
+            Err(DivideByZeroError)
+        );
     }
 
-    //fs::write("config.dat", "").unwrap();
-    match read_username("config.dat") {
-        Ok(username) => println!("Username: {username}"),
-        Err(err) => println!("Error: {err:?}"),
+    #[test]
+    fn test_ok() {
+        let expr = Expression::Op {
+            op: Operation::Sub,
+            left: Box::new(Expression::Value(20)),
+            right: Box::new(Expression::Value(10)),
+        };
+        assert_eq!(eval(expr), Ok(10));
     }
 }
 
 fn main() {
-    anyhow(); // add anyhow = "1.0" below [dependencies] in Cargo.toml
+
+    // anyhow(); // add anyhow = "1.0" below [dependencies] in Cargo.toml
     // thiserror(); // add thiserror = "1.0" below [dependencies] in Cargo.toml
     // dynamic_error_types();
     // try_conversion();
