@@ -228,23 +228,23 @@ struct DivideByZeroError;
 
 // The original implementation of the expression evaluator. Update this to
 // return a `Result` and produce an error when dividing by 0.
-fn eval(e: Expression) -> i64 {
+fn eval(e: Expression) -> Result<i64, DivideByZeroError> {
     match e {
         Expression::Op { op, left, right } => {
-            let left = eval(*left);
-            let right = eval(*right);
-            match op {
+            let left = eval(*left)?;
+            let right = eval(*right)?;
+            Ok(match op {
                 Operation::Add => left + right,
                 Operation::Sub => left - right,
                 Operation::Mul => left * right,
-                Operation::Div => if right != 0 {
-                    left / right
+                Operation::Div => if right == 0 {
+                    return Err(DivideByZeroError);
                 } else {
-                    panic!("Cannot divide by zero!");
+                    left / right
                 },
-            }
+            })
         }
-        Expression::Value(v) => v,
+        Expression::Value(v) => Ok(v),
     }
 }
 
