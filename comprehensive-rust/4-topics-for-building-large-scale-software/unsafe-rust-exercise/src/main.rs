@@ -40,7 +40,17 @@ fn dereferencing_raw_pointers() {
     */
 }
 
+
+// Mutable Static Variables https://google.github.io/comprehensive-rust/unsafe-rust/mutable-static.html
+fn mutable_static_variables() {
+    static HELLO_WORLD: &str = "Hello, world!";
+    
+    println!("HELLO_WORLD: {HELLO_WORLD}");
+}
+
+
 fn main() {
-    dereferencing_raw_pointers(); 
+    mutable_static_variables();
+    // dereferencing_raw_pointers(); 
     // unsafe_rust();
 }
