@@ -43,9 +43,25 @@ fn dereferencing_raw_pointers() {
 
 // Mutable Static Variables https://google.github.io/comprehensive-rust/unsafe-rust/mutable-static.html
 fn mutable_static_variables() {
-    static HELLO_WORLD: &str = "Hello, world!";
+    // static HELLO_WORLD: &str = "Hello, world!";
     
-    println!("HELLO_WORLD: {HELLO_WORLD}");
+    // println!("HELLO_WORLD: {HELLO_WORLD}");
+
+    static mut COUNTER: u32 = 0;
+
+    fn add_to_counter(inc: u32) {
+        // SAFETY: There are no other threads which could be accessing `COUNTER`.
+        unsafe {
+            COUNTER += inc;
+        }
+    }
+
+    add_to_counter(42);
+
+    // SAFETY: There are no other threads which could be accessing `COUNTER`.
+    unsafe {
+        println!("COUNTER: {COUNTER}");
+    }
 }
 
 
