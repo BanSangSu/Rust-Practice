@@ -65,8 +65,22 @@ fn mutable_static_variables() {
 }
 
 
+// Unions https://google.github.io/comprehensive-rust/unsafe-rust/unions.html
+fn unions() {
+    #[repr(C)]
+    union MyUnion {
+        i: u8,
+        b: bool,
+    }
+
+    let u = MyUnion { i: 42};
+    println!("int: {}", unsafe { u.i });
+    println!("bool: {}", unsafe { u.b }); // Undefined behavior!
+}
+
 fn main() {
-    mutable_static_variables();
+    unions();
+    // mutable_static_variables();
     // dereferencing_raw_pointers(); 
     // unsafe_rust();
 }
