@@ -78,8 +78,14 @@ fn unions() {
     println!("bool: {}", unsafe { u.b }); // Undefined behavior!
 }
 
+
+// Unsafe Functions https://google.github.io/comprehensive-rust/unsafe-rust/unsafe-functions.html
+
+
+
 fn main() {
-    unions();
+    
+    // unions();
     // mutable_static_variables();
     // dereferencing_raw_pointers(); 
     // unsafe_rust();
