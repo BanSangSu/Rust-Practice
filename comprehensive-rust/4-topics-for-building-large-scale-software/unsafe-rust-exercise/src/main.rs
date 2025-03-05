@@ -80,11 +80,43 @@ fn unions() {
 
 
 // Unsafe Functions https://google.github.io/comprehensive-rust/unsafe-rust/unsafe-functions.html
+// no code
 
+// Unsafe Rust Functions https://google.github.io/comprehensive-rust/unsafe-rust/unsafe-functions/rust.html
+
+// #[deny(unsafe_op_in_unsafe_fn)]
+// #[warn(unsafe_op_in_unsafe_fn)] // only warning
+fn unsafe_rust_functions() {
+    /// Swaps the values pointed to by the given pointers.
+    ///
+    /// # Safety
+    ///
+    /// The pointers must be valid, properly aligned, and not otherwise accessed for
+    /// the duration of the function call.
+    unsafe fn swap(a: *mut u8, b: *mut u8) {
+        // unsafe { // do it when we use #[deny(unsafe_op_in_unsafe_fn)].
+            let temp = *a;
+            *a = *b;
+            *b = temp;
+        // }
+    }
+
+    let mut a = 42;
+    let mut b = 66;
+
+    // SAFETY: The pointers must be valid, aligned and unique because they came
+    // from references.
+    unsafe {
+        swap(&mut a, &mut b);
+    }
+
+    println!("a = {}, b = {}", a, b);
+}
 
 
 fn main() {
-    
+    unsafe_rust_functions();
+
     // unions();
     // mutable_static_variables();
     // dereferencing_raw_pointers(); 
