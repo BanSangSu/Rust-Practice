@@ -113,10 +113,13 @@ fn unsafe_rust_functions() {
     println!("a = {}, b = {}", a, b);
 }
 
+// Unsafe External Functions https://google.github.io/comprehensive-rust/unsafe-rust/unsafe-functions/extern-c.html
+
 
 fn main() {
-    unsafe_rust_functions();
+    
 
+    // unsafe_rust_functions();
     // unions();
     // mutable_static_variables();
     // dereferencing_raw_pointers(); 
