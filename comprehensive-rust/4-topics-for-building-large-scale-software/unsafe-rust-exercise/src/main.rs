@@ -114,10 +114,33 @@ fn unsafe_rust_functions() {
 }
 
 // Unsafe External Functions https://google.github.io/comprehensive-rust/unsafe-rust/unsafe-functions/extern-c.html
+use std::ffi::c_char;
+
+fn unsafe_external_functions () {
+    unsafe extern "C" {
+        // `abs` doesn't deal with pointers and doesn't have any safety requirements.
+        safe fn abs(input: i32) -> i32;
+    
+        /// # Safety
+        ///
+        /// `s` must be a pointer to a NUL-terminated C string which is valid and
+        /// not modified for the duration of this function call.
+        unsafe fn strlen(s: *const c_char) -> usize;
+    }
+
+    println!("Absolute value of -3 according to C: {}", abs(-3));
+
+    unsafe {
+        // SAFETY: We pass a pointer to a C string literal which is valid for
+        // the duration of the program.
+        println!("String length: {}", strlen(c"String".as_ptr()));
+    }
+}
+
 
 
 fn main() {
-    
+    unsafe_external_functions();
 
     // unsafe_rust_functions();
     // unions();
