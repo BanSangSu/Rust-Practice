@@ -137,11 +137,34 @@ fn unsafe_external_functions () {
     }
 }
 
+// Calling Unsafe Functions https://google.github.io/comprehensive-rust/unsafe-rust/unsafe-functions/calling.html
+fn calling_unsafe_functions() {
+    
+    #[derive(Debug)]
+    #[repr(C)]
+    struct KeyPair {
+        pk: [u16; 4], // 8 bytes
+        sk: [u16; 4], // 8 bytes
+    }
+    
+    const PK_BYTE_LEN: usize = 8;
+
+    fn log_public_key(pk_ptr: *const u16) {
+        let pk: &[u16] = unsafe { std::slice::from_raw_parts(pk_ptr, PK_BYTE_LEN)};
+        println!("{pk:?}");
+    }
+
+    let key_pair = KeyPair{ pk: [1, 2, 3, 4], sk: [0, 0, 42, 0] };
+    log_public_key(key_pair.pk.as_ptr());
+}
+
+
 
 
 fn main() {
-    unsafe_external_functions();
-
+        
+    calling_unsafe_functions();
+    // unsafe_external_functions();
     // unsafe_rust_functions();
     // unions();
     // mutable_static_variables();
