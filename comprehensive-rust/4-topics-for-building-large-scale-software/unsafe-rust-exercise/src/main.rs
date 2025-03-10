@@ -160,12 +160,22 @@ fn calling_unsafe_functions() {
 
 
 // Implementing Unsafe Traits https://google.github.io/comprehensive-rust/unsafe-rust/unsafe-traits.html
+use std::{mem, slice};
 
+fn implementing_unsafe_traits() {
+    
+    /// ...
+    /// # Safety
+    /// The type must have a defined representation and no padding.
+    
+
+}
 
 
 fn main() {
         
-    calling_unsafe_functions();
+    implementing_unsafe_traits();
+    // calling_unsafe_functions();
     // unsafe_external_functions();
     // unsafe_rust_functions();
     // unions();
