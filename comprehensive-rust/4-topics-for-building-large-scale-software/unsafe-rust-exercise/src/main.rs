@@ -178,6 +178,9 @@ fn implementing_unsafe_traits() {
     // SAFETY: `u32` has a defined representation and no padding.
     unsafe impl IntoBytes for u32 {}
 
+    let num: u32 = 0x12345678;
+    println!("u32 as bytes: {:?}", num.as_bytes());
+
 }
 
 
