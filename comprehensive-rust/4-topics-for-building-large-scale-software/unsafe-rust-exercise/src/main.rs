@@ -260,7 +260,15 @@ impl DirectoryIterator {
     fn new(path: &str) -> Result<DirectoryIterator, String> {
         // Call opendir and return a Ok value if that worked,
         // otherwise return Err with a message.
-        todo!()
+        if path =
+            CString::new(path).map_err(|err| format!("Invalid path: {err}"))?;
+        // SAFETY: path.as_ptr() cannot be NULL.
+        let dir = unsafe { ffi::opendir(path.as_ptr()) };
+        if dir.is_null() {
+            Err(format!("Could not open {path:?}"))
+        }else {
+            Ok(DirectoryIterator { path, dir})
+        }
     }
 }
 
@@ -268,14 +276,17 @@ impl Iterator for DirectoryIterator {
     type Item = OsString;
     fn next(&mut self) -> Option<OsString> {
         // Keep calling readdir until we get a NULL pointer back.
-        todo!()
+        if let d = ffi::readdir(self.dir) {
+            (*ffi::readdir(self.dir)).d_name.from_bytes();
+        } 
+        
     }
 }
 
 impl Drop for DirectoryIterator {
     fn drop(&mut self) {
         // Call closedir as needed.
-        todo!()
+        unsafe { ffi::closedir(self.dir) };
     }
 }
 
@@ -288,6 +299,7 @@ fn safe_ffi_wrapper_exercise() -> Result<(), String> {
 
 fn main() {
     safe_ffi_wrapper_exercise();
+
         
     // implementing_unsafe_traits();
     // calling_unsafe_functions();
