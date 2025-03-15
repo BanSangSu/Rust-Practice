@@ -276,17 +276,25 @@ impl Iterator for DirectoryIterator {
     type Item = OsString;
     fn next(&mut self) -> Option<OsString> {
         // Keep calling readdir until we get a NULL pointer back.
-        if let d = ffi::readdir(self.dir) {
-            (*ffi::readdir(self.dir)).d_name.from_bytes();
-        } 
-        
+        // SAFETY: self.dir is never NULL.
+        let dirent = unsafe { ffi::readdir(self.dir) };
+        if dirent.is_null() {
+            // We have reached the end of the directory.
+            return None;
+        }
+        // SAFETY: dirent is not NULL and dirent.d_name is NULL
+        // terminated.
+        let d_name = unsafe { CStr::from_ptr((*dirent).d_name.as_ptr()) };
+        let os_str = OSStr::from_bytes(d_name.to_bytes());
+        Some(os_str.to_owned())
     }
 }
 
 impl Drop for DirectoryIterator {
     fn drop(&mut self) {
         // Call closedir as needed.
-        unsafe { ffi::closedir(self.dir) };
+        // SAFETY: self.dir is never NULL.
+
     }
 }
 
