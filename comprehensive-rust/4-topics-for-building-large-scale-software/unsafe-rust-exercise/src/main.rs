@@ -189,8 +189,6 @@ fn implementing_unsafe_traits() {
 // Exercise: FFI Wrapper
 // Safe FFI Wrapper https://google.github.io/comprehensive-rust/unsafe-rust/exercise.html
 // TODO: remove this when you're done with your implementation.
-#![allow(unused_imports, unused_variables, dead_code)]
-
 mod ffi {
     use std::os::raw::{c_char, c_int};
     #[cfg(not(target_os = "macos"))]
@@ -260,14 +258,14 @@ impl DirectoryIterator {
     fn new(path: &str) -> Result<DirectoryIterator, String> {
         // Call opendir and return a Ok value if that worked,
         // otherwise return Err with a message.
-        if path =
+        let path =
             CString::new(path).map_err(|err| format!("Invalid path: {err}"))?;
         // SAFETY: path.as_ptr() cannot be NULL.
         let dir = unsafe { ffi::opendir(path.as_ptr()) };
         if dir.is_null() {
             Err(format!("Could not open {path:?}"))
         }else {
-            Ok(DirectoryIterator { path, dir})
+            Ok(DirectoryIterator { path, dir })
         }
     }
 }
@@ -285,7 +283,7 @@ impl Iterator for DirectoryIterator {
         // SAFETY: dirent is not NULL and dirent.d_name is NULL
         // terminated.
         let d_name = unsafe { CStr::from_ptr((*dirent).d_name.as_ptr()) };
-        let os_str = OSStr::from_bytes(d_name.to_bytes());
+        let os_str = OsStr::from_bytes(d_name.to_bytes());
         Some(os_str.to_owned())
     }
 }
@@ -294,7 +292,9 @@ impl Drop for DirectoryIterator {
     fn drop(&mut self) {
         // Call closedir as needed.
         // SAFETY: self.dir is never NULL.
-
+        if unsafe { ffi::closedir(self.dir) } != 0 {
+            panic!("Could not close {:?}", self.path);
+        }
     }
 }
 
