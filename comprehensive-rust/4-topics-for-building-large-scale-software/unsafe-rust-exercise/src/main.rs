@@ -306,9 +306,8 @@ fn safe_ffi_wrapper_exercise() -> Result<(), String> {
 
 
 fn main() {
-    safe_ffi_wrapper_exercise();
+    let _ = safe_ffi_wrapper_exercise();
 
-        
     // implementing_unsafe_traits();
     // calling_unsafe_functions();
     // unsafe_external_functions();
@@ -321,6 +320,40 @@ fn main() {
 
 
 #[cfg(test)]
-mod test {
-    
+mod tests {
+    use super::*;
+    use std::error::Error;
+
+    #[test]
+    fn test_nonexisting_directory() {
+        let iter = DirectoryIterator::new("no-such-directory");
+        assert!(iter.is_err());
+    }
+
+    #[test]
+    fn test_empty_directory() -> Result<(), Box<dyn Error>> {
+        let tmp = tempfile::TempDir::new()?; // add dependencies to Cargo.toml https://crates.io/crates/tempfile
+        let iter = DirectoryIterator::new(
+            tmp.path().to_str().ok_or("Non UTF-8 character in path")?,
+        )?;
+        let mut entries = iter.collect::<Vec<_>>();
+        entries.sort();
+        assert_eq!(entries, &[".", ".."]);
+        Ok(())
+    }
+
+    #[test]
+    fn test_nonempty_directory() -> Result<(), Box<dyn Error>> {
+        let tmp = tempfile::TempDir::new()?; // add dependencies to Cargo.toml 
+        std::fs::write(tmp.path().join("foo.txt"), "The Foo Diaries\n")?;
+        std::fs::write(tmp.path().join("bar.png"), "<PNG>\n")?;
+        std::fs::write(tmp.path().join("crab.rs"), "//! Crab\n")?;
+        let iter = DirectoryIterator::new(
+            tmp.path().to_str().ok_or("Non UTF-8 character in path")?,
+        )?;
+        let mut entries = iter.collect::<Vec<_>>();
+        entries.sort();
+        assert_eq!(entries, &[".", "..", "bar.png", "crab.rs", "foo.txt"]);
+        Ok(())
+    }
 }
